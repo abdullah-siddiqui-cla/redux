@@ -108,3 +108,13 @@ export default Posts;
 - `useSelector`: Reads the `posts` state from the Redux store.
 - `useDispatch`: Sends the `toggleFavorite` action to the store.
 
+# Task 2: Fetching Posts Dynamically
+## Objective
+Fetch posts from an API (https://dummyjson.com/posts) and load them into the Redux store using a simple asynchronous action with `createAsyncThunk`.
+
+## Steps
+### 1. Update the Posts Slice
+We will add a new `loadPosts` action that fetches posts from the API and updates the posts state.
+
+### 2. Dispatch loadPosts in the Posts Component
+- Update the `Posts` component to fetch posts when it mounts using `loadPosts` action
