@@ -1,4 +1,5 @@
-# Objective
+# Task 1 - Using Redux Store
+## Objective
 We’ll build a feature to manage a list of posts where users can mark or unmark posts as favorites. This will involve:
 
 - Setting up Redux Toolkit.
@@ -7,7 +8,8 @@ We’ll build a feature to manage a list of posts where users can mark or unmark
 - Connecting Redux to React components.
 
 
-# Steps to Implement
+## Steps
+
 ## 1. Install Redux Toolkit
 If Redux Toolkit is not already installed, run:
 `npm install @reduxjs/toolkit react-redux`
@@ -114,7 +116,34 @@ Fetch posts from an API (https://dummyjson.com/posts) and load them into the Red
 
 ## Steps
 ### 1. Update the Posts Slice
-We will add a new `loadPosts` action that fetches posts from the API and updates the posts state.
+We will add a new `loadPosts` action that fetches posts from the API and updates the posts state. For hint: See the below code snippet,
+
+```
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+
+// Async thunk to fetch posts from the API
+export const loadPosts = createAsyncThunk("posts/loadPosts", async () => {
+  const response = await axios("https://dummyjson.com/posts");
+  return response.data.posts; // Return the array of posts
+});
+
+const postsSlice = createSlice({
+  ...,
+  extraReducers: (builder) => {
+    // This the callback which is executed loadPosts thunk is fulfilled
+    builder.addCase(loadPosts.fulfilled, (state, action) => {
+      // action.payload contains the posts loaded
+      // Load `action.payload` into `state`
+    })
+    .addCase(loadPosts.rejected, (state, action) => {
+      // This the callback which is executed loadPosts thunk is rejected
+    }).addCase(loadPosts.pending, (state, action) => {
+      // This the callback which is executed loadPosts thunk is in pending
+    });
+  },
+});
+
+```
 
 ### 2. Dispatch loadPosts in the Posts Component
 - Update the `Posts` component to fetch posts when it mounts using `loadPosts` action
